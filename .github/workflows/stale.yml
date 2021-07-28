@@ -1,0 +1,30 @@
+name: Mark stale issues and pull requests
+
+on:
+  schedule:
+  - cron: '19 21 * * *'
+
+jobs:
+  stale:
+
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+
+    steps:
+    - uses: actions/stale@v3
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        stale-issue-message: 'Stale issue message'
+        stale-pr-message: 'Stale pull request message'
+        stale-issue-label: 'no-issue-activity'
+        stale-pr-label: 'no-pr-activity'
+    - uses: hashicorp/gh-action-check-broken-links@v1
+      with:
+        # The base URL that links will be resolved against
+        baseUrl: 
+        # A list of files that will be scanned for the presence of links
+        files: # optional
+        # A newline delmited list of URLs that will be ignored
+        whitelist: # optional
